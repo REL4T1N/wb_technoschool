@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Lookup</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --success: #4cc9f0;
+            --error: #f72585;
+            --text: #2b2d42;
+            --text-light: #8d99ae;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .app {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .search-container {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .search-form {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .result-container {
+            display: none;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+        
+        .error-message {
+            color: var(--error);
+            background: rgba(247, 37, 133, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .order-id {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .order-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .field {
+            margin-bottom: 0.5rem;
+        }
+        
+        .field-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.2rem;
+        }
+        
+        .field-value {
+            font-weight: 500;
+        }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .item-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 4px solid var(--success);
+        }
+        
+        .item-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .price {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Order Tracker</h1>
+            <p class="subtitle">Find and view order details by ID</p>
+        </header>
+        
+        <div class="search-container">
+            <div class="search-form">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="orderId" 
+                    placeholder="Enter order ID (e.g. b563feb7b2b84b6test)" 
+                    autofocus
+                >
+                <button class="search-btn" id="searchBtn">Search</button>
+            </div>
+        </div>
+        
+        <div class="result-container" id="resultContainer">
+            <!-- Content will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderIdInput = document.getElementById('orderId');
+            const searchBtn = document.getElementById('searchBtn');
+            const resultContainer = document.getElementById('resultContainer');
+            
+            // Handle search button click
+            searchBtn.addEventListener('click', searchOrder);
+            
+            // Handle Enter key press
+            orderIdInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchOrder();
+                }
+            });
+            
+            async function searchOrder() {
+                const orderId = orderIdInput.value.trim();
+                
+                if (!orderId) {
+                    showError('Please enter an order ID');
+                    return;
+                }
+                
+                // Show loading state
+                resultContainer.style.display = 'block';
+                resultContainer.innerHTML = `
+                    <div class="loading">
+                        <p>Searching for order <strong>${orderId}</strong>...</p>
+                    </div>
+                `;
+                
+                try {
+                    const response = await fetch(`/api/order?order_uid=${encodeURIComponent(orderId)}`);
+                    
+                    if (response.ok) {
+                        const order = await response.json();
+                        displayOrder(order);
+                    } else if (response.status === 404) {
+                        showError(`Order ${orderId} not found`);
+                    } else {
+                        throw new Error('Server error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showError('Failed to fetch order. Please try again.');
+                }
+            }
+            
+            function showError(message) {
+                resultContainer.style.display = 'block';
+                resultContainer.innerHTML = `
+                    <div class="error-message">
+                        ${message}
+                    </div>
+                `;
+            }
+            
+            function displayOrder(order) {
+                resultContainer.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-id">Order #${order.order_uid}</div>
+                        <div class="order-date">${formatDate(order.date_created)}</div>
+                    </div>
+                    
+                    <div class="section">
+                        <h3 class="section-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                            Order Summary
+                        </h3>
+                        <div class="grid">
+                            <div class="field">
+                                <div class="field-label">Track Number</div>
+                                <div class="field-value">${order.track_number}</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Customer ID</div>
+                                <div class="field-value">${order.customer_id}</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Delivery Service</div>
+                                <div class="field-value">${order.delivery.service}</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Entry</div>
+                                <div class="field-value">${order.entry}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h3 class="section-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                            Payment Details
+                        </h3>
+                        <div class="grid">
+                            <div class="field">
+                                <div class="field-label">Amount</div>
+                                <div class="field-value">${order.payment.amount} ${order.payment.currency}</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Provider</div>
+                                <div class="field-value">${order.payment.provider}</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Bank</div>
+                                <div class="field-value">${order.payment.bank}</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Delivery Cost</div>
+                                <div class="field-value">${order.payment.delivery_cost} ${order.payment.currency}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h3 class="section-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 10c0 4.4-3.6 8-8 8s-8-3.6-8-8 3.6-8 8-8 8 3.6 8 8z"></path>
+                                <path d="M12 14l1.4-1.4M12 14l-1.4-1.4M12 14l-1.4 1.4M12 14l1.4 1.4"></path>
+                            </svg>
+                            Delivery Information
+                        </h3>
+                        <div class="grid">
+                            <div class="field">
+                                <div class="field-label">Name</div>
+                                <div class="field-value">${order.delivery.name}</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Phone</div>
+                                <div class="field-value">${order.delivery.phone}</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Email</div>
+                                <div class="field-value">${order.delivery.email}</div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Address</div>
+                                <div class="field-value">
+                                    ${order.delivery.address}, ${order.delivery.city}, 
+                                    ${order.delivery.region} ${order.delivery.zip}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h3 class="section-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
+                            </svg>
+                            Items (${order.items.length})
+                        </h3>
+                        <div class="items-grid">
+                            ${order.items.map(item => `
+                                <div class="item-card">
+                                    <div class="item-title">${item.name}</div>
+                                    <div class="field">
+                                        <div class="field-label">Brand</div>
+                                        <div class="field-value">${item.brand}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Price</div>
+                                        <div class="field-value">
+                                            <span class="price">${item.price} ₽</span>
+                                            <span> (${item.sale}% off)</span>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Size</div>
+                                        <div class="field-value">${item.size}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Quantity</div>
+                                        <div class="field-value">${item.quantity}</div>
+                                    </div>
+                                    <div class="field">
+                                        <div class="field-label">Total</div>
+                                        <div class="field-value price">${item.total_price} ₽</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            }
+        });
+    </script>
+</body>
+</html>
