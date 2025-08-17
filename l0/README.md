@@ -150,5 +150,5 @@ SQL-запросы для их добавления в базу:
    go mod tidy
    go run main.go
    ```
-4. Проверить работу HTTP API по адресу: `http://localhost:8080/orders/{order_uid}`
+4. Проверить работу HTTP API по адресу: `http://localhost:8080/api/order?order_uid=<id_заказа>`
 
