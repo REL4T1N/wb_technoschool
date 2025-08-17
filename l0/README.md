@@ -121,11 +121,11 @@ l0
 
 Другие примеры заказов в формате JSON находятся по пути:
 ```
-/database/demo_orders/order_json
+./database/demo_orders/order_json
 ```
 SQL-запросы для их добавления в базу:
 ```
-database/demo_orders/sql_inserts
+./database/demo_orders/sql_inserts
 ```
 
 ## Требования
