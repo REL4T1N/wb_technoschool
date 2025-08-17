@@ -80,7 +80,6 @@ func (r *Repository) GetOrder(orderUID string) (models.Order, error) {
 				&item.Sale, &item.Size, &item.TotalPrice,
 				&item.NmID, &item.Brand, &item.Status,
 			)
-			item.Quantity = 1 // в схеме quantity нет — вернём 1
 			order.Items = append(order.Items, item)
 		}
 	}

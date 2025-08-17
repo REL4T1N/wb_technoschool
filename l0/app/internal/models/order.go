@@ -58,7 +58,4 @@ type Item struct {
 	NmID        int64  `json:"nm_id"`
 	Brand       string `json:"brand"`
 	Status      int    `json:"status"`
-
-	// index.html ожидает это поле
-	Quantity int `json:"quantity"`
 }

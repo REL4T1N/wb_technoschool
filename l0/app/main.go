@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"wb_technoschool/internal/api"
 	"wb_technoschool/internal/cache"
@@ -12,6 +13,16 @@ import (
 	"wb_technoschool/internal/db"
 	"wb_technoschool/internal/kafka"
 )
+
+// loggingMiddleware логирует каждый HTTP-запрос
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		next.ServeHTTP(w, r)
+		duration := time.Since(start)
+		log.Printf("%s %s %s", r.Method, r.URL.Path, duration)
+	})
+}
 
 func main() {
 	cfg := config.LoadConfig()
@@ -34,11 +45,13 @@ func main() {
 
 	h := &api.Handler{Cache: c, Repo: repo}
 
-	http.Handle("/api/order", http.HandlerFunc(h.GetOrder))
-	// статические файлы
-	http.Handle("/", http.FileServer(http.Dir("./static")))
+	// Оборачиваем Handler в логирование
+	http.Handle("/api/order", loggingMiddleware(http.HandlerFunc(h.GetOrder)))
 
-	// Если нужна Kafka — раскомментируй:
+	// Статика тоже через логирование
+	http.Handle("/", loggingMiddleware(http.FileServer(http.Dir("./static"))))
+
+	// Kafka
 	broker := getenv("KAFKA_BROKER", "localhost:9092")
 	topic := getenv("KAFKA_TOPIC", "orders")
 	go kafka.StartConsumer(broker, topic, c, repo)
