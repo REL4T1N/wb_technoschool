@@ -1,0 +1,45 @@
+{
+   "order_uid": "d985ijk7b2b84b8test",
+   "track_number": "WBILMTESTTRACK3",
+   "entry": "WBIL",
+   "delivery": {
+      "name": "Bob Smith",
+      "phone": "+1987654321",
+      "zip": "90001",
+      "city": "Los Angeles",
+      "address": "Sunset Blvd 100",
+      "region": "CA",
+      "email": "bob@example.com"
+   },
+   "payment": {
+      "transaction": "d985ijk7b2b84b8test",
+      "currency": "USD",
+      "provider": "paypal",
+      "amount": 500,
+      "payment_dt": 1680000000,
+      "bank": "boa",
+      "delivery_cost": 50,
+      "goods_total": 450
+   },
+   "items": [
+      {
+         "chrt_id": 9934933,
+         "track_number": "WBILMTESTTRACK3",
+         "price": 450,
+         "name": "Foundation",
+         "sale": 0,
+         "size": "L",
+         "total_price": 450,
+         "nm_id": 2389215,
+         "brand": "Revlon",
+         "status": 202
+      }
+   ],
+   "locale": "en",
+   "customer_id": "bob",
+   "delivery_service": "ups",
+   "shardkey": "11",
+   "sm_id": 101,
+   "date_created": "2022-05-15T15:30:00Z",
+   "oof_shard": "3"
+}

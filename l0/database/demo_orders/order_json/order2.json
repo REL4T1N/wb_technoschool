@@ -1,0 +1,57 @@
+{
+   "order_uid": "c874fgh7b2b84b7test",
+   "track_number": "WBILMTESTTRACK2",
+   "entry": "WBIL",
+   "delivery": {
+      "name": "Alice Johnson",
+      "phone": "+1234567890",
+      "zip": "10001",
+      "city": "New York",
+      "address": "5th Avenue 21",
+      "region": "NY",
+      "email": "alice@example.com"
+   },
+   "payment": {
+      "transaction": "c874fgh7b2b84b7test",
+      "currency": "USD",
+      "provider": "stripe",
+      "amount": 2300,
+      "payment_dt": 1670000000,
+      "bank": "chase",
+      "delivery_cost": 500,
+      "goods_total": 1800
+   },
+   "items": [
+      {
+         "chrt_id": 9934931,
+         "track_number": "WBILMTESTTRACK2",
+         "price": 900,
+         "name": "Lipstick",
+         "sale": 10,
+         "size": "M",
+         "total_price": 810,
+         "nm_id": 2389213,
+         "brand": "MAC",
+         "status": 202
+      },
+      {
+         "chrt_id": 9934932,
+         "track_number": "WBILMTESTTRACK2",
+         "price": 990,
+         "name": "Eyeliner",
+         "sale": 5,
+         "size": "S",
+         "total_price": 940,
+         "nm_id": 2389214,
+         "brand": "Maybelline",
+         "status": 202
+      }
+   ],
+   "locale": "en",
+   "customer_id": "alice",
+   "delivery_service": "fedex",
+   "shardkey": "10",
+   "sm_id": 100,
+   "date_created": "2022-02-10T10:00:00Z",
+   "oof_shard": "2"
+}
