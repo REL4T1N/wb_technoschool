@@ -32,21 +32,6 @@ l0
 │  └─ main.go
 ```
 
-## Локальный запуск сервиса
-
-1. Перейти в корень проекта `l0`.
-2. Перейти в папку `database` и запустить Docker Compose:
-   ```bash
-   cd database
-   docker-compose up -d
-   ```
-3. Выйти из `database` и перейти в `app`:
-   ```bash
-   cd ../app
-   go mod tidy
-   go run main.go
-   ```
-
 ## Техническое задание
 
 ### Развернуть локально базу данных
