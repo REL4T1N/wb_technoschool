@@ -25,7 +25,7 @@ l0
 │  │  ├─ cache/cache.go
 │  │  ├─ config/config.go
 │  │  └─ kafka/consumer.go
-│  ├─ models/order.go
+|  │  ├─ models/order.go
 │  ├─ static/index.html
 │  ├─ go.mod
 │  ├─ go.sum
