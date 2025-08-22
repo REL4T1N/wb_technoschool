@@ -87,7 +87,7 @@ func (r *Repository) GetOrder(orderUID string) (models.Order, error) {
 	return order, nil
 }
 
-// Вставить заказ (например, из Kafka)
+// Вставить заказ
 func (r *Repository) InsertOrder(order models.Order) error {
 	tx, err := r.db.Begin()
 	if err != nil {
