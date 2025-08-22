@@ -125,13 +125,11 @@ SQL-запросы для их добавления в базу:
 
 1. Убедиться, что Docker и Docker Compose установлены.
 2. Перейти в папку `database` и запустить контейнеры:
-   ```bash
-   cd database
-   docker-compose up -d
-   ```
 3. Перейти в `app`, установить зависимости и запустить сервис:
    ```bash
-   cd app
+   cd ./database
+   docker-compose up -d
+   cd ../app
    go mod tidy
    go run main.go
    ```
