@@ -10,7 +10,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./demo_orders/sql_inserts:/docker-entrypoint-initdb.d
     restart: always
 
   zookeeper:
