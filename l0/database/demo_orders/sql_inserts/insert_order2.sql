@@ -3,16 +3,16 @@ INSERT INTO orders (
     order_uid, track_number, entry, locale, internal_signature, customer_id,
     delivery_service, shardkey, sm_id, date_created, oof_shard
 ) VALUES (
-    'c872ab12d4e3456test',
-    'WBILMTRACK002',
+    'c874fgh7b2b84b7test',
+    'WBILMTESTTRACK2',
     'WBIL',
     'en',
     '',
-    'user2',
-    'dhl',
-    '5',
-    101,
-    '2023-02-15T12:30:00Z',
+    'alice',
+    'fedex',
+    '10',
+    100,
+    '2022-02-10T10:00:00Z',
     '2'
 );
 
@@ -20,12 +20,12 @@ INSERT INTO orders (
 INSERT INTO delivery (
     order_uid, name, phone, zip, city, address, region, email
 ) VALUES (
-    'c872ab12d4e3456test',
+    'c874fgh7b2b84b7test',
     'Alice Johnson',
-    '+12025550123',
+    '+1234567890',
     '10001',
     'New York',
-    '5th Avenue 10',
+    '5th Avenue 21',
     'NY',
     'alice@example.com'
 );
@@ -35,16 +35,16 @@ INSERT INTO payment (
     order_uid, transaction, request_id, currency, provider, amount, payment_dt,
     bank, delivery_cost, goods_total, custom_fee
 ) VALUES (
-    'c872ab12d4e3456test',
-    'c872ab12d4e3456test',
+    'c874fgh7b2b84b7test',
+    'c874fgh7b2b84b7test',
     '',
     'USD',
-    'paypal',
-    250,
-    1676457600,
+    'stripe',
+    2300,
+    1670000000,
     'chase',
-    20,
-    230,
+    500,
+    1800,
     0
 );
 
@@ -54,16 +54,16 @@ INSERT INTO items (
     nm_id, brand, status
 ) VALUES (
     9934931,
-    'c872ab12d4e3456test',
-    'WBILMTRACK002',
-    150,
-    'cd1234567890test',
-    'T-Shirt',
+    'c874fgh7b2b84b7test',
+    'WBILMTESTTRACK2',
+    900,
+    '',
+    'Lipstick',
     10,
     'M',
-    135,
+    810,
     2389213,
-    'Nike',
+    'MAC',
     202
 );
 
@@ -72,15 +72,15 @@ INSERT INTO items (
     nm_id, brand, status
 ) VALUES (
     9934932,
-    'c872ab12d4e3456test',
-    'WBILMTRACK002',
-    100,
-    'cd1234567891test',
-    'Cap',
+    'c874fgh7b2b84b7test',
+    'WBILMTESTTRACK2',
+    990,
+    '',
+    'Eyeliner',
     5,
-    'L',
-    95,
+    'S',
+    940,
     2389214,
-    'Adidas',
+    'Maybelline',
     202
 );

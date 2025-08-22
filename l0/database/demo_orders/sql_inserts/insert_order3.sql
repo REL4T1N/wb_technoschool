@@ -3,31 +3,31 @@ INSERT INTO orders (
     order_uid, track_number, entry, locale, internal_signature, customer_id,
     delivery_service, shardkey, sm_id, date_created, oof_shard
 ) VALUES (
-    'd983bc23e5f6787test',
-    'WBILMTRACK003',
+    'd985ijk7b2b84b8test',
+    'WBILMTESTTRACK3',
     'WBIL',
-    'ru',
+    'en',
     '',
-    'user3',
-    'fedex',
-    '3',
-    102,
-    '2024-06-01T08:45:00Z',
-    '1'
+    'bob',
+    'ups',
+    '11',
+    101,
+    '2022-05-15T15:30:00Z',
+    '3'
 );
 
 -- Таблица delivery
 INSERT INTO delivery (
     order_uid, name, phone, zip, city, address, region, email
 ) VALUES (
-    'd983bc23e5f6787test',
-    'Ivan Petrov',
-    '+74951234567',
-    '123456',
-    'Moscow',
-    'Lenina 25',
-    'Moscow Oblast',
-    'ivan.petrov@example.com'
+    'd985ijk7b2b84b8test',
+    'Bob Smith',
+    '+1987654321',
+    '90001',
+    'Los Angeles',
+    'Sunset Blvd 100',
+    'CA',
+    'bob@example.com'
 );
 
 -- Таблица payment
@@ -35,16 +35,16 @@ INSERT INTO payment (
     order_uid, transaction, request_id, currency, provider, amount, payment_dt,
     bank, delivery_cost, goods_total, custom_fee
 ) VALUES (
-    'd983bc23e5f6787test',
-    'd983bc23e5f6787test',
+    'd985ijk7b2b84b8test',
+    'd985ijk7b2b84b8test',
     '',
-    'RUB',
-    'sberpay',
-    5000,
-    1712125500,
-    'sberbank',
+    'USD',
+    'paypal',
     500,
-    4500,
+    1680000000,
+    'boa',
+    50,
+    450,
     0
 );
 
@@ -54,33 +54,15 @@ INSERT INTO items (
     nm_id, brand, status
 ) VALUES (
     9934933,
-    'd983bc23e5f6787test',
-    'WBILMTRACK003',
-    3000,
-    'ef9876543210test',
-    'Sneakers',
-    0,
-    '42',
-    3000,
-    2389215,
-    'Puma',
-    202
-);
-
-INSERT INTO items (
-    chrt_id, order_uid, track_number, price, rid, name, sale, size, total_price,
-    nm_id, brand, status
-) VALUES (
-    9934934,
-    'd983bc23e5f6787test',
-    'WBILMTRACK003',
-    1500,
-    'ef9876543211test',
-    'Socks',
+    'd985ijk7b2b84b8test',
+    'WBILMTESTTRACK3',
+    450,
+    '',
+    'Foundation',
     0,
     'L',
-    1500,
-    2389216,
-    'Reebok',
+    450,
+    2389215,
+    'Revlon',
     202
 );

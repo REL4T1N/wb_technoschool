@@ -11,11 +11,11 @@ l0
 │     │  ├─ order2.json
 │     │  └─ order3.json
 │     ├─ sql_inserts
+│     │  ├─ init.sql
 │     │  ├─ insert_order1.sql
 │     │  ├─ insert_order2.sql
 │     │  └─ insert_order3.sql
-│     ├─ docker_compose.yml
-│     └─ init.sql
+│     └─ docker_compose.yml
 ├─ app
 │  ├─ internal
 │  │  ├─ db
@@ -111,6 +111,13 @@ l0
 SQL-запросы для их добавления в базу:
 ```
 ./database/demo_orders/sql_inserts
+```
+
+**Доступные идентификаторы заказов в БД:**
+```
+b563feb7b2b84b6test
+c874fgh7b2b84b7test
+d985ijk7b2b84b8test
 ```
 
 ## Требования
