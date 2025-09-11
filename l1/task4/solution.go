@@ -35,6 +35,7 @@ func main() {
 	n, err := strconv.Atoi(os.Args[1])
 	if err != nil || n <= 0 {
 		fmt.Printf("Ошибка при чтении или некорректное количество работников")
+		return
 	}
 
 	jobs := make(chan int)
